@@ -480,14 +480,16 @@ def normalMode():
             # 检测配置文件修改
             if int(time.time()) - configTime >= 600:
                 nowMd5 = getconfigMd5()
+                global configMd5
                 if not nowMd5 == configMd5:
+                    configMd5 = nowMd5
                     logger.info('配置文件修改，重新读取文件')
                     getconfig()
             # modelType
             logger.info('第' + str(flag) + '次 ')
             flag += 1
             # 检测库存
-            inStockSkuid = check_stock()
+            inStockSkuid = check_stock(checksession, skuids, area)
             # 下单任务
             normalModeAutoBuy(inStockSkuid)
             # 休眠模块
@@ -514,7 +516,9 @@ def fastMode():
             # 检测配置文件修改
             if int(time.time()) - configTime >= 600:
                 nowMd5 = getconfigMd5()
+                global configMd5
                 if not nowMd5 == configMd5:
+                    configMd5 = nowMd5
                     logger.info('配置文件修改，重新读取文件')
                     getconfig()
             # modelType
